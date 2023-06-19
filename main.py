@@ -42,18 +42,6 @@ def generate_chat_response(message, username, space_object):
         ],
     )
 
-    print(
-        username
-        + ": \n"
-        + message
-        + "\n"
-        + "\n"
-        + completion.choices[0].message["content"]
-        + "\n"
-        + "\n"
-        + "\n"
-    )
-
     return completion.choices[0].message["content"]
 
 
