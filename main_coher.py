@@ -1,8 +1,11 @@
 import cohere
 import telebot
+import os
 
-BOT_TOKEN = "5923927428:AAFmekAgvnmXaLy-q61twbSpqQ_8TtVe9-g"
-COHERE_API_KEY = "4Xw8lRk6Iy5Tb8L3jDYLRzDzikOs53cve72qW561"
+load_dotenv()
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+COHERE_API_KEY = os.getenv("COHERE_API_KEY")
 
 co = cohere.Client(api_key=COHERE_API_KEY)
 

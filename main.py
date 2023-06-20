@@ -46,7 +46,7 @@ def generate_chat_response(message, username, space_object, prev_response):
                 + message,
             },
         ],
-        temperature=0,
+        temperature=0.5,
     )
 
     return completion.choices[0].message["content"]
@@ -108,14 +108,14 @@ def chat(message):
         bot.send_message(user_id, response)
 
         # Print all the data
-        print("Username:", username)
+        print("Space object:", space_object)
         print("Prompt:", message.text)
         print("Response:", response)
         print("---")
 
         # Write all the data in the file
         with open("chat_log.txt", "a") as file:
-            file.write(f"Username: {username}\n")
+            file.write(f"Space object: {space_object}\n")
             file.write(f"Prompt: {message.text}\n")
             file.write(f"Response: {response}\n")
             file.write("---\n")
