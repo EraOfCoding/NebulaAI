@@ -24,9 +24,10 @@ points = [
 ]
 
 user_space_objects = {}
+prev_response = ""
 
 
-def generate_chat_response(message, username, space_object):
+def generate_chat_response(message, username, space_object, prev_response):
     print(space_object)
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -37,16 +38,26 @@ def generate_chat_response(message, username, space_object):
             },
             {
                 "role": "user",
-                "content": "Answer as if you were " + space_object + "; " + message,
+                "content": "Answer as if you were "
+                + space_object
+                + "; In a context of a message: "
+                + prev_response
+                + "; "
+                + message,
             },
         ],
+        temperature=1,
     )
+
+    print()
 
     return completion.choices[0].message["content"]
 
 
 @bot.message_handler(commands=["start"])
 def start(message):
+    global prev_response
+    prev_response = ""
     bot.send_message(
         message.chat.id,
         "Hi! I am Nebula AI bot, chose any space object you want to speak with and feel free to ask any questions! \nI am here to help you get some knowledge in astronomy!",
@@ -58,7 +69,9 @@ def start(message):
 
 
 @bot.message_handler(commands=["orion"])
-def start(message):
+def orion(message):
+    global prev_response
+    prev_response = ""
     user_space_objects[message.chat.id] = points[0]
     bot.send_message(
         message.chat.id,
@@ -67,7 +80,9 @@ def start(message):
 
 
 @bot.message_handler(commands=["mercury"])
-def start(message):
+def mercury(message):
+    global prev_response
+    prev_response = ""
     user_space_objects[message.chat.id] = points[1]
     bot.send_message(
         message.chat.id,
@@ -76,7 +91,9 @@ def start(message):
 
 
 @bot.message_handler(commands=["venus"])
-def start(message):
+def venus(message):
+    global prev_response
+    prev_response = ""
     user_space_objects[message.chat.id] = points[2]
     bot.send_message(
         message.chat.id,
@@ -85,7 +102,9 @@ def start(message):
 
 
 @bot.message_handler(commands=["earth"])
-def start(message):
+def mars(message):
+    global prev_response
+    prev_response = ""
     user_space_objects[message.chat.id] = points[3]
     bot.send_message(
         message.chat.id,
@@ -94,7 +113,9 @@ def start(message):
 
 
 @bot.message_handler(commands=["mars"])
-def start(message):
+def mars(message):
+    global prev_response
+    prev_response = ""
     user_space_objects[message.chat.id] = points[4]
     bot.send_message(
         message.chat.id,
@@ -103,7 +124,9 @@ def start(message):
 
 
 @bot.message_handler(commands=["jupiter"])
-def start(message):
+def jupiter(message):
+    global prev_response
+    prev_response = ""
     user_space_objects[message.chat.id] = points[5]
     bot.send_message(
         message.chat.id,
@@ -112,7 +135,9 @@ def start(message):
 
 
 @bot.message_handler(commands=["saturn"])
-def start(message):
+def saturn(message):
+    global prev_response
+    prev_response = ""
     user_space_objects[message.chat.id] = points[6]
     bot.send_message(
         message.chat.id,
@@ -123,7 +148,9 @@ def start(message):
 
 
 @bot.message_handler(commands=["uranus"])
-def start(message):
+def uranus(message):
+    global prev_response
+    prev_response = ""
     user_space_objects[message.chat.id] = points[7]
     bot.send_message(
         message.chat.id,
@@ -132,7 +159,9 @@ def start(message):
 
 
 @bot.message_handler(commands=["neptune"])
-def start(message):
+def neptune(message):
+    global prev_response
+    prev_response = ""
     user_space_objects[message.chat.id] = points[8]
     bot.send_message(
         message.chat.id,
@@ -142,13 +171,17 @@ def start(message):
 
 @bot.message_handler()
 def chat(message):
-    # response = "You do not have access!"
+    global prev_response
     username = message.from_user.first_name
     if message.chat.id in user_space_objects:
         current_space_object = user_space_objects[message.chat.id]
         response = generate_chat_response(
-            message=message.text, username=username, space_object=current_space_object
+            message=message.text,
+            username=username,
+            space_object=current_space_object,
+            prev_response=prev_response,
         )
+        prev_response = response
         bot.send_message(message.chat.id, response)
     else:
         bot.send_message(
