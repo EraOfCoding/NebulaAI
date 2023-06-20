@@ -1,0 +1,12 @@
+Username: Yerassyl
+Prompt: hi
+Response: Hello, how may I assist you?
+---
+Username: Yerassyl
+Prompt: ;
+Response: As the Orion Nebula, I am a massive cloud of gas and dust located in the constellation of Orion. I am one of the closest regions of active star formation to Earth and contain over 700 stars in various stages of formation. I am constantly changing and evolving due to the ongoing star formation within me. I emit radiation across the entire electromagnetic spectrum, from radio waves to X-rays, and am surrounded by a faint, extended halo of gas and dust. I am thought to have formed around 2 million years ago and am part of a larger complex of gas and dust known as the Orion Molecular Cloud. I am a popular target for space telescopes, including the Hubble Space Telescope, and have been observed in multiple wavelengths by various telescopes and observatories. I am a fascinating and complex object that continues to reveal new secrets and mysteries to astronomers and astrophysicists.
+---
+Username: Yerassyl
+Prompt: hi
+Response: Hello, how may I assist you?
+---

@@ -24,11 +24,10 @@ points = {
 }
 
 user_space_objects = {}
-prev_response = ""
+user_prev_responses = {}
 
 
 def generate_chat_response(message, username, space_object, prev_response):
-    print(space_object)
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -50,21 +49,19 @@ def generate_chat_response(message, username, space_object, prev_response):
         temperature=0,
     )
 
-    print()
-
     return completion.choices[0].message["content"]
 
 
 @bot.message_handler(commands=["start"])
 def start(message):
-    global prev_response
-    prev_response = ""
+    user_id = message.chat.id
+    user_prev_responses[user_id] = ""
     bot.send_message(
-        message.chat.id,
-        "Hi! I am Nebula AI bot, chose any space object you want to speak with and feel free to ask any questions! \nI am here to help you get some knowledge in astronomy!",
+        user_id,
+        "Hi! I am Nebula AI bot, choose any space object you want to speak with and feel free to ask any questions! \nI am here to help you get some knowledge in astronomy!",
     )
     bot.send_message(
-        message.chat.id,
+        user_id,
         "To start a conversation with a specific space object, type /<space_object>. \n\nList of all the commands: \nOrion Nebula: /orion\nMercury: /mercury\nVenus: /venus\nEarth: /earth\nMars: /mars\nJupiter: /jupiter\nSaturn: /saturn\nUranus: /uranus\nNeptune: /neptune",
     )
 
@@ -82,34 +79,51 @@ def start(message):
         "neptune",
     ]
 )
-def orion(message):
-    global prev_response
-    prev_response = ""
-    user_space_objects[message.chat.id] = points[message.text[1:]]
+def space_object(message):
+    user_id = message.chat.id
+    user_prev_responses[user_id] = ""
+    space_object = points[message.text[1:]]
+    user_space_objects[user_id] = space_object
     bot.send_message(
-        message.chat.id,
+        user_id,
         f"Hi! I am {message.text[1:]}, ask me anything! I am here to help you out with your astronomical questions!",
     )
 
 
 @bot.message_handler()
 def chat(message):
-    global prev_response
+    user_id = message.chat.id
     username = message.from_user.first_name
-    if message.chat.id in user_space_objects:
-        current_space_object = user_space_objects[message.chat.id]
+
+    if user_id in user_space_objects:
+        space_object = user_space_objects[user_id]
+        prev_response = user_prev_responses[user_id]
         response = generate_chat_response(
             message=message.text,
             username=username,
-            space_object=current_space_object,
+            space_object=space_object,
             prev_response=prev_response,
         )
-        prev_response = response
-        bot.send_message(message.chat.id, response)
+        user_prev_responses[user_id] = response
+        bot.send_message(user_id, response)
+
+        # Print all the data
+        print("Username:", username)
+        print("Prompt:", message.text)
+        print("Response:", response)
+        print("---")
+
+        # Write all the data in the file
+        with open("chat_log.txt", "a") as file:
+            file.write(f"Username: {username}\n")
+            file.write(f"Prompt: {message.text}\n")
+            file.write(f"Response: {response}\n")
+            file.write("---\n")
+
     else:
         bot.send_message(
-            message.chat.id,
-            "Please select a space object using the appropriate command. Enter /start for the further information.",
+            user_id,
+            "Please select a space object using the appropriate command. Enter /start for further information.",
         )
 
 
