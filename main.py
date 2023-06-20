@@ -1,6 +1,7 @@
 import telebot
 import openai
 import os
+import requests
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -28,6 +29,12 @@ user_prev_responses = {}
 
 
 def generate_chat_response(message, username, space_object, prev_response):
+    # Initialize variables with default values
+    entity_id = None
+    entity_label = None
+    entity_description = None
+
+    # OpenAI API request
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -49,7 +56,28 @@ def generate_chat_response(message, username, space_object, prev_response):
         temperature=0.5,
     )
 
-    return completion.choices[0].message["content"]
+    # Extracting the generated response from OpenAI
+    generated_response = completion.choices[0].message["content"]
+
+    # Wikidata API request
+    wikidata_url = "https://www.wikidata.org/w/api.php"
+    params = {
+        "action": "wbsearchentities",
+        "format": "json",
+        "language": "en",
+        "search": space_object.id,
+    }
+    wikidata_response = requests.get(wikidata_url, params=params)
+    wikidata_data = wikidata_response.json()
+
+    # Process the Wikidata response and extract relevant data
+    if len(wikidata_data["search"]) > 0:
+        entity_id = wikidata_data["search"][0]["id"]
+        entity_label = wikidata_data["search"][0]["label"]
+        entity_description = wikidata_data["search"][0]["description"]
+        # Perform further processing or return the extracted data as needed
+
+    return generated_response, entity_id, entity_label, entity_description
 
 
 @bot.message_handler(commands=["start"])
@@ -98,14 +126,20 @@ def chat(message):
     if user_id in user_space_objects:
         space_object = user_space_objects[user_id]
         prev_response = user_prev_responses[user_id]
-        response = generate_chat_response(
+        response, entity_id, entity_label, entity_description = generate_chat_response(
             message=message.text,
             username=username,
             space_object=space_object,
             prev_response=prev_response,
         )
+
         user_prev_responses[user_id] = response
         bot.send_message(user_id, response)
+
+        # Print wikidata
+        print(entity_label)
+        print(entity_id)
+        print(entity_description)
 
         # Print all the data
         print("Space object:", space_object)
