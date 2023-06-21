@@ -5,8 +5,9 @@
         "OPENAI_API_KEY": "@environ OPENAI_API_KEY"
     },
     "build": {
-        "env": {
-            "PIP_INSTALL": "python-telegram-bot openai"
+        "env": {},
+        "scripts": {
+            "install": "pip install -r requirements.txt"
         }
     },
     "run": {
