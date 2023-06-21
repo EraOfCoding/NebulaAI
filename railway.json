@@ -1,16 +1,18 @@
 {
     "version": 2,
+    "build": {
+        "env": {},
+        "steps": [
+            "python -m venv venv",
+            ". venv/bin/activate",
+            "pip install -r requirements.txt"
+        ]
+    },
     "env": {
         "BOT_TOKEN": "@environ BOT_TOKEN",
         "OPENAI_API_KEY": "@environ OPENAI_API_KEY"
     },
-    "build": {
-        "env": {},
-        "scripts": {
-            "install": "pip install -r requirements.txt"
-        }
-    },
-    "run": {
-        "web": "python3 main.py"
+    "services": {
+        "web": "python main.py"
     }
 }
