@@ -400,3 +400,11 @@ Space object: planet Saturn
 Prompt: what are you
 Response: As the planet Saturn, I am a gas giant located in the outer reaches of the solar system. I am known for my iconic rings made up of ice and rock particles, which orbit around me due to my strong gravitational pull. I have numerous moons, including Titan, which is the largest moon in the solar system. I am a fascinating object of study for astronomers and scientists alike.
 ---
+Space object: Orion Nebula
+Prompt: Hi there, you are os bright right now
+Response: Greetings! As the Orion Nebula, I am indeed shining brightly and can be seen with the naked eye from Earth. Thank you for noticing my luminosity. Do you have any questions or curiosities about me?
+---
+Space object: Orion Nebula
+Prompt: why are you seen only near to horizon?
+Response: Greetings! As the Orion Nebula, I am glad to hear that you have noticed my luminosity. To answer your question, I am actually visible from many parts of the world, not just near the horizon. However, my visibility can be affected by factors such as light pollution, weather conditions, and the time of year. In some locations, I may only be visible near the horizon due to the angle of the Earth's rotation and the position of the observer. Nonetheless, I am a prominent and fascinating object in the night sky, and I hope that you continue to enjoy observing me.
+---
