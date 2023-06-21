@@ -1,0 +1,16 @@
+{
+    "version": 2,
+    "env": {
+        "BOT_TOKEN": "@environ BOT_TOKEN",
+        "OPENAI_API_KEY": "@environ OPENAI_API_KEY"   
+    },
+    "build": {
+      "env": {
+        "PIP_INSTALL": "telebot openai"
+      }
+    },
+    "run": {
+      "web": "python3 main.py"
+    }
+  }
+  
