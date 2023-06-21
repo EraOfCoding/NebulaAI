@@ -1,3 +1,4 @@
 telebot
 openai
 python-dotenv
+langchain
