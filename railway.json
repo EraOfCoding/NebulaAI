@@ -2,15 +2,14 @@
     "version": 2,
     "env": {
         "BOT_TOKEN": "@environ BOT_TOKEN",
-        "OPENAI_API_KEY": "@environ OPENAI_API_KEY"   
+        "OPENAI_API_KEY": "@environ OPENAI_API_KEY"
     },
     "build": {
-      "env": {
-        "PIP_INSTALL": "telebot openai"
-      }
+        "env": {
+            "PIP_INSTALL": "python-telegram-bot openai"
+        }
     },
     "run": {
-      "web": "python3 main.py"
+        "web": "python3 main.py"
     }
-  }
-  
+}
