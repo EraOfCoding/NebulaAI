@@ -13,6 +13,6 @@
         "OPENAI_API_KEY": "@environ OPENAI_API_KEY"
     },
     "services": {
-        "web": "python main.py"
+        "web": "python main_lc.py"
     }
 }
